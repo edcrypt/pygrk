@@ -1,18 +1,19 @@
 import pytest
-from scales import AbstractBaseScale, MajorScale, GraphMajorScale
+from scales import MajorScale, BaseScaleBuilder, SimpleScaleBuilder, GraphScaleBuilder
 
 
 @pytest.mark.parametrize(
-        'scale_class',
-        (MajorScale, GraphMajorScale),
+        'scale_builder',
+        (SimpleScaleBuilder(), GraphScaleBuilder()),
 )
-def test_major_mode(scale_class: AbstractBaseScale):
-    assert str(scale_class.generate_scale("C")) == 'C D E F G A B C'
+def test_major_mode(scale_builder: BaseScaleBuilder):
+    scale = MajorScale.generate_scale("C", builder=scale_builder)
+    assert str(scale) == 'C D E F G A B C'
 
 @pytest.mark.parametrize(
-        'scale_class',
-        (MajorScale, GraphMajorScale),
+        'scale_builder',
+        (SimpleScaleBuilder(), GraphScaleBuilder()),
 )
-def test_modes(scale_class):
-    assert str(scale_class.generate_scale("F", mode=scale_class.Modes.Lydian)) == 'F G A B C D E F'
-    assert str(scale_class.generate_scale("C", mode=scale_class.Modes.Lydian)) == 'C D E F# G A B C'
+def test_modes(scale_builder: BaseScaleBuilder):
+    assert str(MajorScale.generate_scale("F", mode=MajorScale.Modes.Lydian, builder=scale_builder)) == 'F G A B C D E F'
+    assert str(MajorScale.generate_scale("C", mode=MajorScale.Modes.Lydian, builder=scale_builder)) == 'C D E F# G A B C'
