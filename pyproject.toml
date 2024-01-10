@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "pygrk"
+version = "0.1.0"
+description = ""
+authors = ["Eduardo Padoan <eduardo.padoan@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+textual = "^0.47.1"
+networkx = "^3.2.1"
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.20.0"
+pytest = "^7.4.4"
+pyright = "^1.1.345"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
