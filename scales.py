@@ -23,6 +23,7 @@ class AbstractBaseScale(abc.ABC):
     base_formula: ScaleFormula
     chromatic_notes: list[Note]
     mode: Mode
+    default_mode: Mode
 
     chromatic_scale_size: int
     root_note: Note
@@ -40,15 +41,13 @@ class AbstractBaseScale(abc.ABC):
     @classmethod
     def generate_scale(cls, root_note: Note = 'C', mode: Optional[Mode] = None):
         obj = cls(root_note)
-        if mode is not None:
-            obj.mode = mode
+        obj.mode = cls.default_mode if mode is None else mode
         obj.fill_scale()
         return obj
 
     def mode_formula(self) -> ScaleFormula:
         """Rotate the scale formula according to the mode index"""
-        if not self.mode:
-            # mode 0, return unchanged:
+        if self.mode is self.default_mode:
             return self.base_formula
         return self.base_formula[self.mode:] + self.base_formula[:self.mode]
 
@@ -107,7 +106,7 @@ class MajorScale(SimpleBaseScale):
         Aeolian = 5
         Locrian = 6
 
-    mode = Modes.Ionian
+    default_mode = Modes.Ionian
 
 
 class GraphMajorScale(GraphBaseScale):
@@ -123,4 +122,4 @@ class GraphMajorScale(GraphBaseScale):
         Aeolian = 5
         Locrian = 6
 
-    mode = Modes.Ionian
+    default_mode = Modes.Ionian
